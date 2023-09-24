@@ -103,7 +103,7 @@ function App() {
                 {TwitterIcon}
               </a>
               <a
-                href="https://www.blockchain.com/btc/address/18XgtdUpCtkFBHBsmS91L6veFNdBkwfcAD"
+                href="https://www.blockchain.com/explorer/addresses/btc/bc1q6gz57ucy3hmzrjv9k7reqmwuuretmlvfue6zuc"
                 className={"footerItem flex-item"}
               >
                 {BitcoinIcon}
