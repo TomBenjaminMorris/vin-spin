@@ -54,8 +54,8 @@ resource "aws_cloudfront_distribution" "www_s3_distribution" {
 
   restrictions {
     geo_restriction {
-      restriction_type = "whitelist"
-      locations        = ["GB"]
+      restriction_type = "none"
+      locations = []
     }
   }
 
@@ -110,8 +110,8 @@ resource "aws_cloudfront_distribution" "root_s3_distribution" {
 
   restrictions {
     geo_restriction {
-      restriction_type = "whitelist"
-      locations        = ["GB"]
+      restriction_type = "none"
+      locations = []
     }
   }
 
