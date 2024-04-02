@@ -1,47 +1,23 @@
-name: BuildAndDeploy
+name: "Build and Deploy"
+
 on:
   workflow_dispatch:
-#   push:
-#     branches:
-#       - master
-
+  push:
+    branches:
+      - master
+    paths:
+      - client/**
+      
 permissions:
- id-token: write
- contents: read
+  id-token: write
+  contents: read
 
 jobs:
-  build_and_deploy:
-    runs-on: ubuntu-latest
-    env:
-     AWS_DEFAULT_REGION: eu-west-2
-    steps:
-    - uses: actions/checkout@v3
-
-    - name: Use Node.js 12
-      uses: actions/setup-node@v3
+    call-workflow-passing-data:
+      uses: TomBenjaminMorris/github-actions-lib/.github/workflows/react-build-and-deploy.yml@master
       with:
-        node-version: 12
-
-    - name: Install Packages
-      run: |
-        npm install
-
-    - name: Build React App
-      run: |
-        CI=false npm run build
-        echo "Build complete 🏗️"
-
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v2
-      with:
-        role-to-assume: ${{ vars.TF_AWS_ROLE }}
-        role-session-name: samplerolesession
-        aws-region: ${{env.AWS_DEFAULT_REGION}}
-
-    - name: Sync S3 & Invalidate Caches
-      run: |
-        aws s3 sync build/ s3://${{ secrets.AWS_S3_BUCKET }}
-        dist1=`aws cloudfront list-distributions --query "DistributionList.Items[?Comment=='vinsp.in'].Id" --output text`
-        dist2=`aws cloudfront list-distributions --query "DistributionList.Items[?Comment=='www.vinsp.in'].Id" --output text`
-        aws cloudfront create-invalidation --distribution-id $dist1 --paths "/*"
-        aws cloudfront create-invalidation --distribution-id $dist2 --paths "/*"
+        aws-default-region: eu-west-2
+        tf-aws-role: ${{ vars.TF_AWS_ROLE }}
+        domain-name: vinsp.in
+        folder-name: client
+      secrets: inherit
