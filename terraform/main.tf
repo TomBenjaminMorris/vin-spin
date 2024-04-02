@@ -23,7 +23,7 @@ locals {
   project_name      = "vinspin"
   domain_name       = "vinsp.in"
   root_domain_name  = "vinsp.in"
-  allowed_locations = []
+  allowed_locations = ["GB"]
   common_tags = {
     Project = "vinsp.in"
   }
